@@ -1,4 +1,6 @@
-import React from 'react';
+import React from "react";
+import { connect } from "react-redux";
+import { fetchStudent } from "../redux/store";
 
 const avgGrade = (tests) => {
   return Math.round(
@@ -6,39 +8,43 @@ const avgGrade = (tests) => {
   );
 };
 
-const DUMMY_DATA = {
-  id: 1,
-  fullName: "Student McDummydata",
-  firstName: "Student",
-  lastName: "McDummydata",
-  email: "sm@dummydata.com",
-  tests: [
-    {
-      id: 1,
-      subject: "Computer Science",
-      grade: 45,
-    },
-    {
-      id: 6,
-      subject: "Art",
-      grade: 60,
-    },
-    {
-      id: 12,
-      subject: "ullam",
-      grade: 45,
-    },
-  ],
-};
+// const DUMMY_DATA = {
+//   id: 1,
+//   fullName: "Student McDummydata",
+//   firstName: "Student",
+//   lastName: "McDummydata",
+//   email: "sm@dummydata.com",
+//   tests: [
+//     {
+//       id: 1,
+//       subject: "Computer Science",
+//       grade: 45,
+//     },
+//     {
+//       id: 6,
+//       subject: "Art",
+//       grade: 60,
+//     },
+//     {
+//       id: 12,
+//       subject: "ullam",
+//       grade: 45,
+//     },
+//   ],
+// };
 
 class SingleStudent extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  componentDidMount() {
+    this.props.fetchStudent(this.props.match.params.id);
+  }
+
   render() {
-    const student = DUMMY_DATA;
-    const hasTests = student.tests.length;
+    const { student } = this.props;
+    const hasTests = student.tests && student.tests.length;
 
     return (
       <div>
@@ -73,6 +79,10 @@ class SingleStudent extends React.Component {
       </div>
     );
   }
-};
+}
 
-export default SingleStudent;
+const mapStateToProps = (state) => ({
+  student: state.student,
+});
+
+export default connect(mapStateToProps, { fetchStudent })(SingleStudent);
