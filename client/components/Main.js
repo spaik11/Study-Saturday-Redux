@@ -1,11 +1,17 @@
-import React from 'react';
-import {HashRouter as Router, Switch, Route} from 'react-router-dom'
-import StudentList from './StudentList.js';
-import SingleStudent from './SingleStudent';
+import React from "react";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import StudentList from "./StudentList.js";
+import SingleStudent from "./SingleStudent";
+import { fetchStudents } from "../redux/store";
+import { connect } from "react-redux";
 
-export default class Main extends React.Component {
+class Main extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.props.fetchStudents();
   }
 
   render() {
@@ -21,3 +27,5 @@ export default class Main extends React.Component {
     );
   }
 }
+
+export default connect(null, { fetchStudents })(Main);

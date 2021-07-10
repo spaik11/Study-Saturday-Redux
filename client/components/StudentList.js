@@ -1,22 +1,6 @@
-import React from 'react';
-import {Link} from 'react-router-dom'
-
-const DUMMY_DATA = [
-  {
-    id: 1,
-    fullName: "Jordan Walke",
-    firstName: "Jordan",
-    lastName: "Walke",
-    email: "jw@react.com",
-  },
-  {
-    id: 2,
-    fullName: "Dan Abramov",
-    firstName: "Dan",
-    lastName: "Avramov",
-    email: "da@react.com",
-  }
-]
+import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 class StudentList extends React.Component {
   constructor(props) {
@@ -24,9 +8,10 @@ class StudentList extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <ul>
-        {DUMMY_DATA.map((student) => (
+        {this.props.students.map((student) => (
           <li key={student.id}>
             <div>
               <p>Name: {student.fullName}</p>
@@ -35,9 +20,14 @@ class StudentList extends React.Component {
           </li>
         ))}
       </ul>
-    )
-
+    );
   }
 }
 
-export default StudentList;
+const mapStateToProps = (state) => {
+  return {
+    students: state,
+  };
+};
+
+export default connect(mapStateToProps)(StudentList);
